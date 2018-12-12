@@ -1,25 +1,22 @@
 
 module.exports = function(app)
 {
-  var redisConn = require('./redisConn.js');
+  var _redis = require("redis");
+
+var redis = _redis.createClient('6379', '52.231.66.82');
+
+  // var redisConn = require('./redisConn.js');
+  var bodyParser = require('body-parser');
+  app.use(bodyParser.urlencoded({extended:true}));
+  app.use(bodyParser.json());
+
   // app get
 
      app.get('/', function(req,res){
         res.render('index.html')
      });
      app.get('/login', function(req,res){
-        
-        // console.log('result : ' + redisConn.redis_getValue('siri'))
-        /*
-        var sql = `SELECT * FROM user`;
-        connection.query(sql, function(err, result){
-          if(err){
-            console.log(err);
-          }else{
-            console.log(result[0]);
-          }*/
           res.render('login.ejs', {user: 'sol'});
-        // }) 
     });
     app.get('/user', function(req,res){
       res.render('user.ejs')
@@ -29,14 +26,26 @@ module.exports = function(app)
     });
 
     // app post
-    app.post('/login_confirm', function(req,res){
-      console.log('app.post')
-      res.json(redisConn.redis_getValue('siri'))
+    app.post('/login_confirm', function(req,res) {
+      redis.get(req.body.id, function(error, result) {
+        if (error) console.log('Error: '+ error);
+        else  res.json(result);
+    });
+      
     })
 
     return app;
 }
 /*
+//redis
+  redisConn.redis_getValue(req.body.id, function (err, data) {
+    console.loda('data : ', data)
+    res.json(data)
+    // return data;
+  })
+*/
+/*
+//sql
 console.log('req.body : ', req)
       var sql = `SELECT * FROM user`;
         connection.query(sql, function(err, result){

@@ -21,26 +21,25 @@
         if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
             console.log('clickBtn')
             sendAjax('http://localhost:3000/login_confirm', document.getElementById("id").value, document.getElementById("password").value);
-            /*
-            document.getElementById("smallTxt").innerHTML = "all"
-            if (document.getElementById("password").value == redisConn.redis_getValue(document.getElementById("id").value)) {
-                console.log('비번 맞음')
-            } else {
-                console.log('비번 틀림')
-            }*/
         }
     }
     function sendAjax(url, id, password) {
+ 
+      let data = {'id' : id, 'password': password};
+      data = JSON.stringify(data);
+
       var xmlHttpRequest = new XMLHttpRequest();
       xmlHttpRequest.open('POST', url);
       xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
-      console.log('sendAjax')
-      xmlHttpRequest.send(id);
+      xmlHttpRequest.send(data);
 
       xmlHttpRequest.addEventListener('load', function() {
-        if (xmlHttpRequest.statusText != 'OK')  console.log('result not ok!');
-        else console.log('result ok!');
+        if (xmlHttpRequest.statusText != 'OK')  return;
+        if (xmlHttpRequest.response.replace(/"/g, '') != password) console.log('비번 다름');
+        else console.log('비번 같음.');
       });
+
+
     }
     </script>
 </body>

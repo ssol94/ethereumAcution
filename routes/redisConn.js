@@ -9,9 +9,11 @@ exports.redis_getValue = function(key) {
 	    if (error) console.log('Error: '+ error);
 	    else  { 
 	    	console.log('value: ' + result);
-	    	return result;
+	    	let value = JSON.parse(result)
+	    	
 	    }
 	});
+
 }
 
 exports.redis_setValue = function(key) {
