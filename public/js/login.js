@@ -1,6 +1,6 @@
 // var path = process.cwd(); 
 // var redisConn = require('../../routes/redisConn');
-
+/*
 function clickBtn () {
 	console.log('click');
 	if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
@@ -11,7 +11,7 @@ function clickBtn () {
     		console.log('비번 틀림')
     	}
     }
-}
+}*/
 /*
 var formAnim = {
 	$form: $('#form'),

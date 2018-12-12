@@ -1,14 +1,15 @@
 
 module.exports = function(app)
 {
+  var redisConn = require('./redisConn.js');
+  // app get
+
      app.get('/', function(req,res){
         res.render('index.html')
-        // DB 작업 수행
-        // res.send('Hello World');
      });
      app.get('/login', function(req,res){
-        var redisConn = require('./redisConn');
-        console.log('result : ' + redisConn.redis_getValue('siri'))
+        
+        // console.log('result : ' + redisConn.redis_getValue('siri'))
         /*
         var sql = `SELECT * FROM user`;
         connection.query(sql, function(err, result){
@@ -26,8 +27,27 @@ module.exports = function(app)
     app.get('/list', function(req,res){
       res.render('list.ejs')
     });
+
+    // app post
+    app.post('/login_confirm', function(req,res){
+      console.log('app.post')
+      res.json(redisConn.redis_getValue('siri'))
+    })
+
     return app;
 }
+/*
+console.log('req.body : ', req)
+      var sql = `SELECT * FROM user`;
+        connection.query(sql, function(err, result){
+          if(err){
+            console.log(err);
+          }else{
+            console.log(result[0]);
+          }
+      })
+      res.send("welcome! " + req.body.email)
+*/
 /*
 var mysql_dbc = require('./mysqlConn')();
 var connection = mysql_dbc.init();
