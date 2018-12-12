@@ -1,0 +1,111 @@
+body {
+	 font: 400 1em/1.5 "Neuton";
+	 background: #090d00;
+	 color: rgba(255, 255, 255, .25);
+	 text-align: center;
+	 margin: 0;
+}
+ .textAni {
+	 text-transform: uppercase;
+	 letter-spacing: 0.5em;
+	 display: inline-block;
+	 border: 4px double rgba(255, 255, 255, .25);
+	 border-width: 4px 0;
+	 padding: 1.5em 0em;
+	 position: absolute;
+	 top: 18%;
+	 left: 50%;
+	 width: 40em;
+	 margin: 0 0 0 -20em;
+}
+ .textAni span {
+	 font: 700 6em "Oswald", sans-serif;
+	 letter-spacing: 0;
+	 /*padding: 0.25em 0 0.325em;*/
+	 display: block;
+	 margin: 0 auto;
+	 text-shadow: 0 0 80px rgba(255, 255, 255, .5);
+	/* Clip Background Image */
+	 background: url(http://f.cl.ly/items/010q3E1u3p2Q0j1L1S1o/animated_text_fill.png) repeat-y;
+	 -webkit-background-clip: text;
+	 background-clip: text;
+	/* Animate Background Image */
+	 -webkit-text-fill-color: transparent;
+	 -webkit-animation: aitf 80s linear infinite;
+	/* Activate hardware acceleration for smoother animations */
+	 -webkit-transform: translate3d(0, 0, 0);
+	 -webkit-backface-visibility: hidden;
+}
+/* Animate Background Image */
+ @-webkit-keyframes aitf {
+	 0% {
+		 background-position: 0% 50%;
+	}
+	 100% {
+		 background-position: 100% 50%;
+	}
+}
+ 
+/* 3d button css start */
+
+.Button {
+  margin-top: 30px;
+  perspective: 600px;
+}
+.Button.Button--start {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  width: 220px;
+  height: 220px;
+}
+.Button.Button--start button {
+  border-radius: 4px;
+}
+.Button.Button--select {
+  width: 60px;
+  height: 60px;
+}
+.Button.Button--select button {
+  border-radius: 50%;
+}
+button {
+  position: relative;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  /*border: 0;*/
+  border-width: 5px;
+  border-color: #e1e1e1;
+  box-shadow: 0px 0px 0px #1f1510;
+  background: linear-gradient(0deg, #333 10%, #1c1c1c);
+  transition: transform 0.15s, box-shadow 0.15s;
+  transform: rotateX(0deg) translateY(0);
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+}
+button:hover {
+  box-shadow: 0px 5px 0px #750014;
+  border-radius: 8px;
+  transform: rotateX(30deg) translateY(0);
+}
+button:hover:active {
+  text-shadow: 0 0 4px #ad001d;
+  box-shadow: 0 1px 0 #423847;
+  background: black;
+  transition: transform 0.05s, box-shadow 0.05s;
+  transform: rotateX(30deg) translateY(4px);
+}
+button span {
+  position: relative;
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  transform: translate3d(0, 0, 0);
+}
+.button-collection {
+	bottom: 15%;
+	position: absolute;
+	width: 100%;
+}
+
+/* 3d button css end */

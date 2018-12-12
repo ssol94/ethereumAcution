@@ -1,8 +1,15 @@
+// var path = process.cwd(); 
+// var redisConn = require('../../routes/redisConn');
 
 function clickBtn () {
-
-	if (document.getElementById("id").value == '' || document.getElementById("password").value == '') {
+	console.log('click');
+	if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
     	document.getElementById("smallTxt").innerHTML = "all"
+    	if (document.getElementById("password").value == redisConn.redis_getValue(document.getElementById("id").value)) {
+    		console.log('비번 맞음')
+    	} else {
+    		console.log('비번 틀림')
+    	}
     }
 }
 /*
