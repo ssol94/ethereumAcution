@@ -2,39 +2,52 @@
 module.exports = function(app)
 {
   var _redis = require("redis");
-
-var redis = _redis.createClient('6379', '52.231.66.82');
+  var redis = _redis.createClient('6379', '52.231.66.82');
 
   // var redisConn = require('./redisConn.js');
   var bodyParser = require('body-parser');
   app.use(bodyParser.urlencoded({extended:true}));
   app.use(bodyParser.json());
 
-  // app get
+// app get
+  app.get('/', function(req,res){
+    res.render('index.html')
+  });
+  app.get('/login', function(req,res){
+    res.render('login.ejs', {user: 'sol'});
+  });
+  app.get('/user', function(req,res){
+    res.render('user.ejs')
+  });
+  app.get('/list', function(req,res){
+    res.render('list.ejs')
+  });
+  app.post('/login_confirm_h', function(req,res) {
+    // req.body.id
+    console.dir(req.body.id)
+    redis.hget(req.body.id, 'password', 'grade', function(error, result) {
+      if (error) console.log('Error: '+ error);
+      else  res.json(result);
+    });
+  });
+  app.post('/login_confirm_all', function(req,res) {
+    // req.body.id
+    console.dir(req.body.id)
+    redis.hgetall(req.body.id, function(error, result) {
+      if (error) console.log('Error: '+ error);
+      else  res.json(result);
+    });
+  });
 
-     app.get('/', function(req,res){
-        res.render('index.html')
-     });
-     app.get('/login', function(req,res){
-          res.render('login.ejs', {user: 'sol'});
+  // app post
+  app.post('/login_confirm', function(req,res) {
+    console.dir(req.body.id)
+    redis.get(req.body.id, function(error, result) {
+      if (error) console.log('Error: '+ error);
+      else  res.json(result);
     });
-    app.get('/user', function(req,res){
-      res.render('user.ejs')
-    });
-    app.get('/list', function(req,res){
-      res.render('list.ejs')
-    });
-
-    // app post
-    app.post('/login_confirm', function(req,res) {
-      redis.get(req.body.id, function(error, result) {
-        if (error) console.log('Error: '+ error);
-        else  res.json(result);
-    });
-      
-    })
-
-    return app;
+  });
+  return app;
 }
 /*
 //redis

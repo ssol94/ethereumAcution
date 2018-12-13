@@ -17,14 +17,14 @@
     </div>
     <button class="button" id="loginBtn" onclick="clickBtn()">LOGIN<div class="side-top-bottom"></div><div class="side-left-right"></div></button><small id="smallTxt"><%= user.id %></small></div>
     <script type="text/javascript">
+
     function clickBtn () {
         if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
-            console.log('clickBtn')
-            sendAjax('http://localhost:3000/login_confirm', document.getElementById("id").value, document.getElementById("password").value);
+            sendAjax('http://localhost:3000/login_confirm_all', document.getElementById("id").value, document.getElementById("password").value);
         }
     }
+
     function sendAjax(url, id, password) {
- 
       let data = {'id' : id, 'password': password};
       data = JSON.stringify(data);
 
@@ -34,13 +34,16 @@
       xmlHttpRequest.send(data);
 
       xmlHttpRequest.addEventListener('load', function() {
+        let jsonResult = JSON.parse(xmlHttpRequest.response);
         if (xmlHttpRequest.statusText != 'OK')  return;
-        if (xmlHttpRequest.response.replace(/"/g, '') != password) console.log('비번 다름');
-        else console.log('비번 같음.');
+        if (jsonResult.password.replace(/"/g, '') != password) alert('비번 다름');
+        else  { // 비번이 같을 경우
+            if (jsonResult.grade == 'maker') location.href = "/";
+            else if (jsonResult.grade == 'user') location.href = "/user";
+        }
       });
-
-
     }
+
     </script>
 </body>
 </html>
