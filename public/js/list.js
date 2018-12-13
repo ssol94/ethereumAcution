@@ -10,7 +10,8 @@ function listAni () {
   }
 }
 
-function clickBtn() {
+function clickBtn(id) {
+  console.log('clickBtn : ', id)
   $('#myList').removeClass('rolldown-list');
   setTimeout(function () {
     $('#myList').addClass('rolldown-list');

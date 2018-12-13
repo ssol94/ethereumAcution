@@ -4,6 +4,7 @@
   <title></title>
   <link rel='stylesheet' href='https://overpasstest-30e2.kxcdn.com/fonts.css'>
   <link rel="stylesheet" type="text/css" href="css/testStyle.css">
+  <link rel="stylesheet" type="text/css" href="css/listStyle.css">
   <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
   <script type="text/javascript" src="/js/test.js"></script>
   <script type="text/javascript" src="/js/list.js"></script>
@@ -14,21 +15,41 @@
 
 <div class="tabs">
   <div class="tab-2">
-    <label for="tab2-1">현재 결과</label>
+    <label for="tab2-1">현재 결과<button id="nowBtnReload" onclick="clickBtn(id)"><img src="/img/reload.PNG"></button></label>
     <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
     <div>
-     
+     <ul class="rolldown-list" id="myList">
+          <li style="color: #fd264f;">1. 정은솔<button onclick="clickBtn(id)" style="background: #333; float: right; border: none;"><img src="/img/check.PNG"></button></li>
+          <li>2. 강민수</li>
+          <li>3. 신동헌</li>
+          <li>4. 박장식</li>
+          <li>5. 김지원</li>
+          <li>6. 박진수</li>
+          <li>7. 윤태한</li>
+          <li>8. 류성호 </li>
+        </ul> 
     </div>
   </div>
   <div class="tab-2">
-    <label for="tab2-2">최종 결과</label>
+    <label for="tab2-2">최종 결과<button id="resultBtnReload" onclick="clickBtn(id)"><img src="/img/reload.PNG"></button></label>
     <input id="tab2-2" name="tabs-two" type="radio">
     <div>
-      <h4>최종 결과</h4>
-      <p>Quisque sit amet turpis leo. Maecenas sed dolor mi. Pellentesque varius elit in neque ornare commodo ac non tellus. Mauris id iaculis quam. Donec eu felis quam. Morbi tristique lorem eget iaculis consectetur. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aenean at tellus eget risus tempus ultrices. Nam condimentum nisi enim, scelerisque faucibus lectus sodales at.</p>
+      <ul class="rolldown-list" id="myList">
+        <li>1. 박장식</li>
+        <li>2. 강민수</li>
+        <li>3. 신동헌</li>
+        <li>4. 박장식</li>
+        <li>5. 김지원</li>
+        <li>6. 박진수</li>
+        <li>7. 윤태한</li>
+        <li>8. 류성호 </li>
+      </ul> 
     </div>
   </div>
 </div>
+<br><br><br><br><br>
+<br><br><br><br><br>
+
 </body>
 </html>
 

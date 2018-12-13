@@ -11,7 +11,8 @@ body {
 h1 {
   font-size: 40px;
   line-height: 0.8em;
-  color: rgba(255,255,255,0.2);}
+  color: #fd264f;
+  text-align: center;}
 a {
     background: #fd264f;
     color: #fff;
@@ -72,7 +73,7 @@ select:focus {
       border-bottom: 1px solid #fd264f; }
     .tabs [class^="tab"] [type="radio"]:checked,
     .tabs [class*=" tab"] [type="radio"]:checked {
-      border-bottom: 2px solid #fd264f; }
+      border-bottom: 2px solid #fd264f;  border-bottom-width: 10px;}
     .tabs [class^="tab"] [type="radio"]:checked + div,
     .tabs [class*=" tab"] [type="radio"]:checked + div {
       opacity: 1; }
