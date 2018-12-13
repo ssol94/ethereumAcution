@@ -22,8 +22,8 @@ module.exports = function(app)
   app.get('/list', function(req,res){
     res.render('list.ejs')
   });
-  app.get('/test', function(req,res){
-    res.render('test.html')
+  app.get('/listAll', function(req,res){
+    res.render('allList.ejs')
   });
   app.post('/login_confirm_h', function(req,res) {
     // req.body.id

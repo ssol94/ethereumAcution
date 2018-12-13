@@ -11,7 +11,7 @@
   // Set height of wrapper on page load
   tabWrapper.height(activeTabHeight);
   
-  function clickBtn() {
+  function clickTabBtn() {
     
     // Remove class from active tab
     $(".tabs > li").removeClass("active");

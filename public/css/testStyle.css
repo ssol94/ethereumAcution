@@ -50,7 +50,7 @@ select:focus {
     cursor: pointer;
     display: block;
     font-size: 3.1em;
-    font-weight: 300;
+    font-weight: 600;
     line-height: 1em;
     padding: 2rem 0;
     text-align: center; }

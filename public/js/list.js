@@ -10,11 +10,17 @@ function listAni () {
   }
 }
 
-function clickBtn(id) {
+function clickListBtn(id) {
   console.log('clickBtn : ', id)
-  $('#myList').removeClass('rolldown-list');
+  let tabId = '';
+  id == "nowBtnReload"? tabId = '#myList1' : tabId = '#myList2'
+  $(tabId).removeClass('rolldown-list');
   setTimeout(function () {
-    $('#myList').addClass('rolldown-list');
+    $(tabId).addClass('rolldown-list');
     listAni ()
   }, 1);
+}
+
+function clickCheckBtn () {
+  // 서버로 전송.
 }

@@ -24,7 +24,7 @@ lldown-list {
  .rolldown-list li:nth-child(2n+1) {
 	 background-color: #333;
 }
- #myList {
+ #myList1, #myList2 {
 	 position: absolute;
 	 width: 50%;
 	 left: 50%;
