@@ -3,9 +3,11 @@
 <head>
 	<title></title>
 	<link rel="stylesheet" type="text/css" href="css/loginStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/alertStyle.css">
 	
 	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="/js/login.js"></script>
+    <script type="text/javascript" src="/js/alert.js"></script>
 </head>
 <body>
 <div class="form" id="form">
@@ -15,8 +17,21 @@
         <div class="icon"></div>
         <input class="input" id="password" type="password" placeholder="Password" />
     </div>
-    <button class="button" id="loginBtn" onclick="clickBtn()">LOGIN<div class="side-top-bottom"></div><div class="side-left-right"></div></button><small id="smallTxt"><%= user.id %></small></div>
+    <button class="button" id="loginBtn" onclick="clickBtn()"><p id="loginTxt">LOGIN</p><div class="side-top-bottom"></div><div class="side-left-right"></div></button><small id="smallTxt"><%= user.id %></small></div>
     <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // ** 배포할 때는 pc를 꼭 mobile로 바꾸기.
+        if (distingushDevice() == 'pc') {
+            document.getElementById('form').style.width = '800px';
+            document.getElementById('id').style.height = '100px';
+            document.getElementById('id').style.fontSize = '40px';
+            document.getElementById('password').style.height = '100px';
+            document.getElementById('password').style.fontSize = '40px';
+            document.getElementById('loginBtn').style.height = '100px';
+            document.getElementById('loginBtn').style.fontSize = '40px';
+            document.getElementById('loginTxt').style.marginTop = '15px';
+        }
+    }, false);
 
     function clickBtn () {
         if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
@@ -35,6 +50,7 @@
 
       xmlHttpRequest.addEventListener('load', function() {
         let jsonResult = JSON.parse(xmlHttpRequest.response);
+        console.dir(jsonResult);
         if (xmlHttpRequest.statusText != 'OK')  return;
         if (jsonResult.password.replace(/"/g, '') != password) alert('비번 다름');
         else  { // 비번이 같을 경우
@@ -42,6 +58,20 @@
             else if (jsonResult.grade == 'user') location.href = "/user";
         }
       });
+    }
+
+    function distingushDevice () {
+        // pc접속인지 mobile접속인지 구분하기.
+        var filter = "win16|win32|win64|mac|macintel";
+        if (navigator.platform) {
+            if (filter.indexOf(navigator.platform.toLowerCase()) < 0) {
+                console.log('mobile 접속')
+                return 'mobile';
+            } else {
+                console.log('pc 접속')
+                return 'pc';
+            }
+        }
     }
 
     </script>
