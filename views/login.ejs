@@ -55,7 +55,7 @@
         if (jsonResult.password.replace(/"/g, '') != password) alert('비번 다름');
         else  { // 비번이 같을 경우
             if (jsonResult.grade == 'maker') location.href = "/";
-            else if (jsonResult.grade == 'user') location.href = "/user";
+            else if (jsonResult.grade == 'user') location.href = "/user?id="+id+"&money="+jsonResult.money;
         }
       });
     }
@@ -73,7 +73,6 @@
             }
         }
     }
-
     </script>
 </body>
 </html>

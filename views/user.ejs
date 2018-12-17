@@ -5,16 +5,15 @@
 	<link rel="stylesheet" type="text/css" href="css/userStyle.css">
 	
 	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
-	<script type="text/javascript" src="/js/login.js"></script>
 </head>
 <body>
 <div class="collectionMoney" style="margin: 0 auto;">
     <div class="textAni">
       Last Dev-day of 2018
-      <span>
+      <span id='allMoney'>
         500000
       </span>
-      <span>
+      <span id='nowMoney'>
         100
       </span>
       &mdash; Enjoy the Auction &mdash;
@@ -23,28 +22,152 @@
 
 <div class="button-collection">
     <div class="Button Button--start">
-        <button><span style="font-size: 60px;">+</span></button>
+        <button id='+' onclick='clickBtn(id)'><span style="font-size: 60px;">+</span></button>
     </div>
     <div style="width: 720px; margin: 0 auto;">
         <div class="Button Button--start" style="float: left; margin-left: 10px; margin-right: 10px;">
-            <button><span>X2</span></button>
+            <button id='X2' onclick='clickBtn(id)'><span>X2</span></button>
         </div>
         <div class="Button Button--start" style="float: left; margin-left: 10px; margin-right: 10px;">
-            <button><span>100</span></button>
+            <button id='100' onclick='clickBtn(id)'><span>100</span></button>
         </div>
         <div class="Button Button--start" style="float: left; margin-left: 10px; margin-right: 10px;">
-            <button><span>AllIn</span></button>
+            <button id='allIn' onclick='clickBtn(id)'><span>AllIn</span></button>
         </div>
     </div>
     <div style="width: 720px; margin: 0 auto;">
         <div class="Button Button--start" style="float: left; margin-left: 250px; margin-right: 10px;">
-            <button><span style="font-size: 60px;">-</span></button>
+            <button id='-' onclick='clickBtn(id)'><span style="font-size: 60px;">-</span></button>
         </div>
         <div class="Button Button--start" style="float: left; margin-left: 10px; margin-right: 10px;">
-            <button><span>Send</span></button>
+            <button id='send' onclick='clickBtn(id)'><span>Send</span></button>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    let userId = '', qnum = 0;
+    document.addEventListener('DOMContentLoaded', function() {
+        let arr = getQuerystring();
+        userId = arr[0].split('=')[1];
+        document.getElementById('allMoney').innerHTML = arr[1].split('=')[1];
+        getQnum('http://localhost:3000/get_qnum')
+        getUserMoney('http://localhost:3000/get_userMoney', userId)
+    }, false);
 
+    function clickBtn (id) {
+        let nowValue = document.getElementById('nowMoney').textContent;
+        let allValue = document.getElementById('allMoney').textContent;
+        switch (id) {
+            case '+':
+                document.getElementById('nowMoney').innerHTML = Number(nowValue) + 100 <= Number(allValue)? Number(nowValue) + 100 : nowValue;
+            break;
+            case 'X2':
+                document.getElementById('nowMoney').innerHTML = Number(nowValue) * 2 <= Number(allValue)? Number(nowValue) * 2 : nowValue; 
+            break;
+            case '100':
+                document.getElementById('nowMoney').innerHTML = 100;
+            break;
+            case 'allIn':
+                document.getElementById('nowMoney').innerHTML = allValue;
+            break;
+            case '-':
+                document.getElementById('nowMoney').innerHTML = Number(nowValue) >= 100? (Number(nowValue) - 100):nowValue;
+            break;
+            case 'send':
+                if ( Number(nowValue) <= Number(allValue)) {
+                    sendAjax('http://localhost:3000/user_send', userId, nowValue); //이름이랑 돈보내기
+                } else {
+                    console.log('돈이 모자랍니다.')
+                    document.getElementById('nowMoney').innerHTML = 100;
+                }
+            break;
+        }
+    }
+
+    function getQuerystring(){ 
+        let tempUrl = window.location.search.substring(1);
+        return tempUrl.split('&');
+    }
+
+    function sendAjax(url, id, money) {
+      let data = {'qnum': qnum, 'id' : id, 'money': money};
+      data = JSON.stringify(data);
+
+      var xmlHttpRequest = new XMLHttpRequest();
+      xmlHttpRequest.open('POST', url);
+      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+      xmlHttpRequest.send(data);
+
+      xmlHttpRequest.addEventListener('load', function() {
+        let jsonResult = JSON.parse(xmlHttpRequest.response);
+        console.dir(jsonResult);
+        console.log(jsonResult.statusText);
+        if (jsonResult.statusText == 'NO') console.log('경매값 마감되었습니다.');
+        else if (xmlHttpRequest.statusText == 'OK')  {
+            console.log('경매값 전송되었습니다.');
+            document.getElementById('allMoney').innerHTML = Number(document.getElementById('allMoney').textContent) - Number(document.getElementById('nowMoney').textContent);
+            document.getElementById('nowMoney').innerHTML = 100;  
+            setUserMoney('http://localhost:3000/set_userMoney', id, document.getElementById('allMoney').textContent)
+            setTotalMoney('http://localhost:3000/set_totalMoney', money)
+        }
+          
+      });
+    }
+
+    function setUserMoney (url, id, money) {
+        let data = {'id' : id, 'money': money};
+        data = JSON.stringify(data);
+
+        var xmlHttpRequest = new XMLHttpRequest();
+          xmlHttpRequest.open('POST', url);
+          xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+          xmlHttpRequest.send(data);
+
+          xmlHttpRequest.addEventListener('load', function() {
+            let jsonResult = JSON.parse(xmlHttpRequest.response);
+            console.dir(jsonResult);
+      });
+    }
+
+    function getQnum (url) {
+      var xmlHttpRequest = new XMLHttpRequest();
+      xmlHttpRequest.open('POST', url);
+      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+      xmlHttpRequest.send(JSON.stringify({}));
+
+      xmlHttpRequest.addEventListener('load', function() {
+        let jsonResult = JSON.parse(xmlHttpRequest.response);
+        qnum = jsonResult;  
+      });
+    }
+
+    function getUserMoney (url, id) {
+      var xmlHttpRequest = new XMLHttpRequest();
+      xmlHttpRequest.open('POST', url);
+      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+      xmlHttpRequest.send(JSON.stringify({'id': id}));
+
+      xmlHttpRequest.addEventListener('load', function() {
+
+        console.dir(xmlHttpRequest)
+        let jsonResult = JSON.parse(xmlHttpRequest.response);
+        document.getElementById('allMoney').innerHTML = jsonResult;
+        console.log('jsonResult : ', jsonResult)
+      });
+    }
+
+    function setTotalMoney (url, money) {
+      var xmlHttpRequest = new XMLHttpRequest();
+      xmlHttpRequest.open('POST', url);
+      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+      xmlHttpRequest.send(JSON.stringify({'money': money}));
+
+      xmlHttpRequest.addEventListener('load', function() {
+
+        console.dir(xmlHttpRequest)
+        let jsonResult = JSON.parse(xmlHttpRequest.response);
+      });
+    }
+</script>
 </body>
 </html>

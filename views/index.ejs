@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel='stylesheet' href='https://overpasstest-30e2.kxcdn.com/fonts.css'>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	
+	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="/js/jquery.lettering-0.6.1.min.js"></script>
+</head>
+<body>
+	<div>
+		<p style="
+		    color: white;
+		    font-size: 30px;
+		    font-weight: bold;">LOTTE BLOCKCHAIN <font size="50px">Q</font><font id="qnum" size="50px"></font><font size="50px">.</font></p>
+		<h1 class="letter">5529800₩</h1>
+	</div>
+	<div class="Wrapper">
+	  <div class="Button Button--start">
+	    <button id="startBtn" onclick="clickBtn(id)" style="margin-top: 20px;"><span>Start</span></button>
+	   </div>
+	   <div class="Button Button--start">
+	    <button id="stopBtn" onclick="clickBtn(id)" style="margin-top: 8px !important; margin-bottom: 0px !important;"><span>Stop</span></button>
+	   </div>
+	   <div class="Button Button--start">
+	    <button id="listBtn" onclick="clickBtn(id)" style="margin-top: 8px !important; margin-bottom: 0px !important;"><span>List</span></button>
+	   </div>
+	   <!--
+	  <div class="Button Button--select">
+	    <button><span>A</span></button>
+	   </div> -->
+	</div>
+	<script type="text/javascript">
+		let qnum = -1;
+		let intervalTxt = '';
+
+		document.addEventListener('DOMContentLoaded', function() {
+			sendAjax('http://localhost:3000/get_qnum', 0)
+	       	let letters = document.getElementsByClassName('letter')
+	      	letters[0].innerHTML = '0₩';
+	      	$(".letter").lettering();
+	    }, false);
+
+		function clickBtn (id) {
+			switch (id){
+				case 'startBtn':
+					sendAjax('http://localhost:3000/set_qnum', 1)
+					sendAjax('http://localhost:3000/state', 3)
+					intervalTxt = setInterval(function () {getTotalMoney('http://localhost:3000/get_totalMoney')}, 5000);
+					let letters = document.getElementsByClassName('letter')
+			      	letters[0].innerHTML = '0₩';
+			      	$(".letter").lettering();
+				break;
+				case 'stopBtn':
+					sendAjax('http://localhost:3000/state', 2)
+					clearInterval(intervalTxt);
+				break;
+				case 'listBtn':
+					location.href = "/listAll";
+				break;
+			}
+		}
+
+		function sendAjax(url, qnumVal) {
+		  if (qnumVal == 0) {
+		  	data = {'qnum' : -1};
+		  } else if (qnumVal == 1)  {
+		  	qnum += 1;
+ 	      	data = {'qnum' : qnum};
+ 	      } else if (qnumVal == 2) {
+ 	      	data = {'state' : 'stop'};
+ 	      	setTotalMoney('http://localhost:3000/init_totalMoney')
+ 	      	makeqeustion('http://localhost:3000/score', {'id': 'siri', 'qnum': qnum+1, 'money': 0})
+ 	      } else if (qnumVal == 3) {
+ 	      	data = {'state' : 'start'};
+ 	      }
+	      data = JSON.stringify(data);
+
+	      var xmlHttpRequest = new XMLHttpRequest();
+	      xmlHttpRequest.open('POST', url);
+	      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+	      xmlHttpRequest.send(data);
+
+	      xmlHttpRequest.addEventListener('load', function() {
+	        let jsonResult = JSON.parse(xmlHttpRequest.response);
+	        switch (qnumVal) {
+	        	case 0:
+	        		qnum = Number(jsonResult);
+	         		document.getElementById('qnum').innerHTML = qnum; break;
+	         	case 1:
+	         		document.getElementById('qnum').innerHTML = qnum; break;
+	         	break;
+	        }
+	      });
+	    }
+
+	    function makeqeustion (url, data) {
+	      var xmlHttpRequest = new XMLHttpRequest();
+	      xmlHttpRequest.open('POST', url);
+	      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+	      xmlHttpRequest.send(JSON.stringify(data));
+
+	      xmlHttpRequest.addEventListener('load', function() {
+	        let jsonResult = JSON.parse(xmlHttpRequest.response);
+	        console.log('makeqeustion jsonResult : ', jsonResult)
+	      });
+	    }
+
+	    function setTotalMoney (url) {
+	      var xmlHttpRequest = new XMLHttpRequest();
+	      xmlHttpRequest.open('POST', url);
+	      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+	      xmlHttpRequest.send(JSON.stringify({}));
+
+	      xmlHttpRequest.addEventListener('load', function() {
+	        let jsonResult = JSON.parse(xmlHttpRequest.response);
+	      });
+	    }
+
+	    function getTotalMoney (url) {
+	      console.log('total good')
+	      var xmlHttpRequest = new XMLHttpRequest();
+	      xmlHttpRequest.open('POST', url);
+	      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
+	      xmlHttpRequest.send(JSON.stringify({}));
+
+	      xmlHttpRequest.addEventListener('load', function() {
+	      	let jsonResult = JSON.parse(xmlHttpRequest.response.replace(/"/gi, ""));
+	      	let letters = document.getElementsByClassName('letter')
+	      	letters[0].innerHTML = jsonResult + '₩';
+	        $(".letter").lettering();
+	      });
+	    }
+	</script>
+</body>
+</html>
+
