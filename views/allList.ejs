@@ -19,7 +19,7 @@
     <input id="tab2-1" name="tabs-two" type="radio" checked="checked">
     <div>
      <ul class="rolldown-list" id="myList1">
-          <li style="color: #fd264f;">1. 정은솔<button onclick="clickCheckBtn(id)" style="background: #333; float: right; border: none;"><img src="/img/check.PNG"></button></li>
+          <!-- <li style="color: #fd264f;">1. 정은솔<button onclick="clickCheckBtn(id)" style="background: #333; float: right; border: none;"><img src="/img/check.PNG"></button></li> -->
         </ul> 
     </div>
   </div>
@@ -43,7 +43,7 @@
 <script type="text/javascript">
   var nowList = [];
   document.addEventListener('DOMContentLoaded', function() {
-      sendAjax('http://localhost:3000/nowList', 'q2');
+      sendAjax('http://localhost:3000/nowList', 'q1');
     }, false);
 
   function listAni () {
@@ -89,7 +89,43 @@
       console.log('client')
       console.dir(JSON.parse(xmlHttpRequest.response));
       nowList = (JSON.parse(xmlHttpRequest.response));
+      var listCnt = document.getElementsByTagName( 'ul' )[0].childElementCount;
+      for (let i = 0;i<listCnt ; i++) {
+        delList(num + 1)
+      }
+      for (let i =0; i < nowList.length/2 ; i++) {
+        makeList(i + 1, nowList[2*i], nowList[2*i + 1]) 
+      }
+      
     });
+    function makeList(num, name, money) {
+      if (money == '0') return;
+      var ul = document.getElementById("myList1");
+      var li = document.createElement("li");
+      var btn = '';
+      let img = '';
+      li.appendChild(document.createTextNode(num+'. ' + name + ' (' +money + ')'));
+      if (num == 1) {
+        li.setAttribute("style", "color: #fd264f;");
+        btn = document.createElement("button");
+        // onclick="clickCheckBtn(id)" style="background: #333; float: right; border: none;
+        btn.setAttribute("onclick", "clickCheckBtn(id)");
+        btn.setAttribute("style", "background: #333; float: right; border: none;");
+        // <img src="/img/check.PNG">
+        img = document.createElement("img");
+        img.setAttribute("src", "/img/check.PNG");
+        btn.appendChild(img);
+        li.appendChild(btn);
+      }
+
+      li.setAttribute("id", "li"+num); // added line
+      ul.appendChild(li);
+      // alert(li.id);
+      
+    }
+    function delList(num) {
+      document.getElementById('li' + num).remove()
+    }
   }
 </script>
 </body>

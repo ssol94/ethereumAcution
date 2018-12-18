@@ -136,16 +136,22 @@ module.exports = function(app)
 
   app.post('/nowList', function(req,res) {
     console.log('req.body.key : ', req.body.key)
-    redis.zrevrange(req.body.key, 0, -1, 'withscores', function(error, result) {
-      if (error) console.log('Error: '+ error);
-      else {
-        console.log('results')
-        console.dir(result)
-        // res.render('allList.ejs', {list: result})
-        res.json(result);
-        
-      }
-    });
+    redis.get('qnum', function(error, qnumResult) {
+          if (error) console.log('Error: '+ error);
+          else {
+            console.log('qnumResult : ' + qnumResult)
+            redis.zrevrange('q' + qnumResult, 0, -1, 'withscores', function(error, result) {
+              if (error) console.log('Error: '+ error);
+              else {
+                console.log('results')
+                console.dir(result)
+                // res.render('allList.ejs', {list: result})
+                res.json(result);
+                
+              }
+            });
+          }
+        });
   });
   return app;
 }

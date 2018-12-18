@@ -35,6 +35,8 @@
 
     function clickBtn () {
         if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
+            console.log('id : ', document.getElementById("id").value)
+            console.log('password : ', document.getElementById("password").value)
             sendAjax('http://localhost:3000/login_confirm_all', document.getElementById("id").value, document.getElementById("password").value);
         }
     }
@@ -50,7 +52,7 @@
 
       xmlHttpRequest.addEventListener('load', function() {
         let jsonResult = JSON.parse(xmlHttpRequest.response);
-        console.dir(jsonResult);
+        console.dir(xmlHttpRequest);
         if (xmlHttpRequest.statusText != 'OK')  return;
         if (jsonResult.password.replace(/"/g, '') != password) alert('비번 다름');
         else  { // 비번이 같을 경우
