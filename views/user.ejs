@@ -100,8 +100,6 @@
 
       xmlHttpRequest.addEventListener('load', function() {
         let jsonResult = JSON.parse(xmlHttpRequest.response);
-        console.dir(jsonResult);
-        console.log(jsonResult.statusText);
         if (jsonResult.statusText == 'NO') console.log('경매값 마감되었습니다.');
         else if (xmlHttpRequest.statusText == 'OK')  {
             console.log('경매값 전송되었습니다.');

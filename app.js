@@ -18,6 +18,11 @@ var server = app.listen(3000, function(){
 
 app.use(express.static('public'));
 
+var Web3 = require("web3");
+web3 = new Web3(new Web3.providers.HttpProvider("http://52.231.66.82:8545"));
+// console.dir(web3)
+var network_version = web3.version.api;
+console.log(network_version);
 
 // app.use(express.static('routes'));
 
