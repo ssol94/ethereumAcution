@@ -53,7 +53,9 @@ module.exports = function(app)
   app.post('/get_userMoney', function(req,res) {
     redis.hget(req.body.id, 'money', function(error, result) {
       if (error) console.log('Error: '+ error);
-      else  res.json(result);
+      else { res.json(result);
+        console.log('result :', result)
+      }
     });
   });
   app.post('/set_userMoney', function(req,res) {
@@ -67,10 +69,12 @@ module.exports = function(app)
       if (error) console.log('Error: '+ error);
       else  {
         console.log(result)
-        redis.set('totalMoney', Number(req.body.money) + Number(result), function(error, setResult) {
-          if (error) console.log('Error: '+ error);
-          else  res.json(setResult);
-        });
+        if (Number(result) < Number(req.body.money)) {
+          redis.set('totalMoney', Number(req.body.money) + Number(result), function(error, setResult) {
+            if (error) console.log('Error: '+ error);
+            else  res.json(setResult);
+          });
+        } 
       }
     });
   });

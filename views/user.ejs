@@ -105,9 +105,9 @@
         if (jsonResult.statusText == 'NO') console.log('경매값 마감되었습니다.');
         else if (xmlHttpRequest.statusText == 'OK')  {
             console.log('경매값 전송되었습니다.');
-            document.getElementById('allMoney').innerHTML = Number(document.getElementById('allMoney').textContent) - Number(document.getElementById('nowMoney').textContent);
+           // document.getElementById('allMoney').innerHTML = Number(document.getElementById('allMoney').textContent) - Number(document.getElementById('nowMoney').textContent);
             document.getElementById('nowMoney').innerHTML = 100;  
-            setUserMoney('http://localhost:3000/set_userMoney', id, document.getElementById('allMoney').textContent)
+            // setUserMoney('http://localhost:3000/set_userMoney', id, document.getElementById('allMoney').textContent)
             setTotalMoney('http://localhost:3000/set_totalMoney', money)
         }
           
@@ -146,9 +146,10 @@
       xmlHttpRequest.open('POST', url);
       xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
       xmlHttpRequest.send(JSON.stringify({'id': id}));
-
+      console.log('id : ', id)
       xmlHttpRequest.addEventListener('load', function() {
 
+        console.dir(xmlHttpRequest)
         console.dir(xmlHttpRequest)
         let jsonResult = JSON.parse(xmlHttpRequest.response);
         document.getElementById('allMoney').innerHTML = jsonResult;

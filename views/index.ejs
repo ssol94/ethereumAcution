@@ -47,7 +47,7 @@
 				case 'startBtn':
 					sendAjax('http://localhost:3000/set_qnum', 1)
 					sendAjax('http://localhost:3000/state', 3)
-					intervalTxt = setInterval(function () {getTotalMoney('http://localhost:3000/get_totalMoney')}, 5000);
+					intervalTxt = setInterval(function () {getTotalMoney('http://localhost:3000/nowList')}, 5000);
 					let letters = document.getElementsByClassName('letter')
 			      	letters[0].innerHTML = '0₩';
 			      	$(".letter").lettering();
@@ -119,16 +119,16 @@
 	    }
 
 	    function getTotalMoney (url) {
-	      console.log('total good')
 	      var xmlHttpRequest = new XMLHttpRequest();
 	      xmlHttpRequest.open('POST', url);
 	      xmlHttpRequest.setRequestHeader('Content-Type', "application/json");
 	      xmlHttpRequest.send(JSON.stringify({}));
 
 	      xmlHttpRequest.addEventListener('load', function() {
-	      	let jsonResult = JSON.parse(xmlHttpRequest.response.replace(/"/gi, ""));
+	      	
+	      	let jsonResult = JSON.parse(xmlHttpRequest.response);      	
 	      	let letters = document.getElementsByClassName('letter')
-	      	letters[0].innerHTML = jsonResult + '₩';
+	      	letters[0].innerHTML = jsonResult[1] + '₩';
 	        $(".letter").lettering();
 	      });
 	    }
