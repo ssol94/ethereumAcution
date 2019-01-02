@@ -157,6 +157,17 @@ module.exports = function(app)
           }
         });
   });
+  app.post('/set_userMoneyAfterCheck', function(req,res) {
+    redis.hget(req.body.id, 'money', function(error, getResult) {
+      if (error) console.log('Error: '+ error);
+      else {
+        redis.hset(req.body.id, 'money', Number(getResult) - Number(req.body.money), function(error, result) {
+          if (error) console.log('Error: '+ error);
+          else  res.json(result);
+        });
+      }
+    });
+  });
   return app;
 }
 /*

@@ -13,7 +13,7 @@ body {
 	 border-width: 4px 0;
 	 padding: 1.5em 0em;
 	 position: absolute;
-	 top: 18%;
+	 top: 10%;
 	 left: 50%;
 	 width: 40em;
 	 margin: 0 0 0 -20em;
@@ -103,7 +103,7 @@ button span {
   transform: translate3d(0, 0, 0);
 }
 .button-collection {
-	bottom: 15%;
+	bottom: 7%;
 	position: absolute;
 	width: 100%;
 }

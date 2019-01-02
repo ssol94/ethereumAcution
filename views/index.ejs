@@ -7,6 +7,7 @@
 	
 	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="/js/jquery.lettering-0.6.1.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 	<div>
@@ -36,7 +37,7 @@
 		let intervalTxt = '';
 
 		document.addEventListener('DOMContentLoaded', function() {
-			sendAjax('http://localhost:3000/get_qnum', 0)
+			sendAjax('http://52.231.66.82:3000/get_qnum', 0)
 	       	let letters = document.getElementsByClassName('letter')
 	      	letters[0].innerHTML = '0₩';
 	      	$(".letter").lettering();
@@ -45,15 +46,17 @@
 		function clickBtn (id) {
 			switch (id){
 				case 'startBtn':
-					sendAjax('http://localhost:3000/set_qnum', 1)
-					sendAjax('http://localhost:3000/state', 3)
-					intervalTxt = setInterval(function () {getTotalMoney('http://localhost:3000/nowList')}, 5000);
+					swal('시작', '경매 시작!', 'success');
+					sendAjax('http://52.231.66.82:3000/set_qnum', 1)
+					sendAjax('http://52.231.66.82:3000/state', 3)
+					intervalTxt = setInterval(function () {getTotalMoney('http://52.231.66.82:3000/nowList')}, 5000);
 					let letters = document.getElementsByClassName('letter')
 			      	letters[0].innerHTML = '0₩';
 			      	$(".letter").lettering();
 				break;
 				case 'stopBtn':
-					sendAjax('http://localhost:3000/state', 2)
+					swal('마감', '경매 마감!', 'success');
+					sendAjax('http://52.231.66.82:3000/state', 2)
 					clearInterval(intervalTxt);
 				break;
 				case 'listBtn':
@@ -70,8 +73,8 @@
  	      	data = {'qnum' : qnum};
  	      } else if (qnumVal == 2) {
  	      	data = {'state' : 'stop'};
- 	      	setTotalMoney('http://localhost:3000/init_totalMoney')
- 	      	makeqeustion('http://localhost:3000/score', {'id': 'siri', 'qnum': qnum+1, 'money': 0})
+ 	      	setTotalMoney('http://52.231.66.82:3000/init_totalMoney')
+ 	      	makeqeustion('http://52.231.66.82:3000/score', {'id': 'siri', 'qnum': qnum+1, 'money': 0})
  	      } else if (qnumVal == 3) {
  	      	data = {'state' : 'start'};
  	      }

@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="/js/login.js"></script>
     <script type="text/javascript" src="/js/alert.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
 <div class="form" id="form">
@@ -37,7 +38,7 @@
         if (document.getElementById("id").value != '' || document.getElementById("password").value != '') {
             console.log('id : ', document.getElementById("id").value)
             console.log('password : ', document.getElementById("password").value)
-            sendAjax('http://localhost:3000/login_confirm_all', document.getElementById("id").value, document.getElementById("password").value);
+            sendAjax('http://52.231.66.82:3000/login_confirm_all', document.getElementById("id").value, document.getElementById("password").value);
         }
     }
 
@@ -54,7 +55,7 @@
         let jsonResult = JSON.parse(xmlHttpRequest.response);
         console.dir(xmlHttpRequest);
         if (xmlHttpRequest.statusText != 'OK')  return;
-        if (jsonResult.password.replace(/"/g, '') != password) alert('비번 다름');
+        if (jsonResult.password.replace(/"/g, '') != password) swal('비번 다름', "비밀번호를 확인해주세요.", "warning");
         else  { // 비번이 같을 경우
             if (jsonResult.grade == 'maker') location.href = "/";
             else if (jsonResult.grade == 'user') location.href = "/user?id="+id+"&money="+jsonResult.money;
